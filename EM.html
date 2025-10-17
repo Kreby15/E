@@ -1,0 +1,387 @@
+<!--KATULONG KO SI AI :)-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>EM</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💙</text></svg>">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Satisfy&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Satisfy", cursive;
+  
+}
+
+body {
+  color: #f8f9ff;
+  text-shadow: 0 0 10px #a7c7e7, 0 0 20px #91a7ff;
+  height: 100vh;
+  background: linear-gradient(180deg, #77aaff 0%, #4477cc 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow-x: hidden;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  padding: 20px;
+  text-align: center;
+}
+
+/* Falling icons layer */
+.falling-icons-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+.icon {
+  position: absolute;
+  top: -10vh;
+  will-change: transform, opacity;
+  opacity: 0.9;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  user-select: none;
+}
+@keyframes fall {
+  0% { transform: translate3d(0, -10vh, 0) rotate(0deg); opacity: 0.9; }
+  100% { transform: translate3d(var(--x-drift, 0), 110vh, 0) rotate(var(--rot, 360deg)); opacity: 0.1; }
+}
+
+/* Title */
+h1 {
+  font-size: 4rem;
+  margin-bottom: 40px;
+  z-index: 1;
+}
+
+/* Buttons Container */
+.container {
+  display: flex;
+  gap: 80px;
+  flex-wrap: wrap;
+  justify-content: center;
+  z-index: 1;
+}
+
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+button:hover {
+  background-color: #77aaff;
+  transform: scale(1.1);
+}
+
+button:hover .tooltiptext{
+  background: rgb(100, 100, 198);
+  visibility: visible;
+}
+
+button img {
+  height: 200px;
+  width: auto;
+  max-width: 90vw;
+}
+
+/* Popup */
+#popup {
+  color: whitesmoke;
+  text-shadow: none;
+  display: none;
+  position: fixed;
+  top: 10%;
+  left: 50%;
+  width: 80%;
+  height: 80%;
+  max-width: 500px;
+  background: 	#dfb488;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px gray;
+  z-index: 1000;
+  overflow: hidden;
+  border:3px solid #894500;
+  transform: translateX(-50%) scaleY(0);
+  transform-origin: top center;
+  transition: transform 0.6s ease-out;
+}
+
+#popup.active {
+  transform: translateX(-50%) scaleY(1);
+}
+
+#popup h2 {
+  margin-bottom: 40px;
+  font-size: 1.5rem;
+}
+
+#popup p {
+  font-size: 1.5rem;
+}
+
+/* Overlay */
+#overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  z-index: 999;
+}
+
+/* Footer */
+footer {
+  position: absolute;
+  bottom: 10px;
+  text-align: center;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  color: white;
+  opacity: 0.8;
+}
+
+/* 📱 Responsive Styles */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2.5rem;
+    top: 5%;
+  }
+
+  .container {
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  button img {
+    height: 150px;
+  }
+
+  #popup {
+    width: 90%;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 2rem;
+  }
+
+  button img {
+    height: 120px;
+  }
+
+  #popup h2 {
+    font-size: 1.2rem;
+  }
+
+  #popup p {
+    font-size: 1rem;
+  }
+}
+
+.tooltiptext {
+  visibility: hidden;
+  width: 130px;
+  font-size: large;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  bottom: 50%;
+  left: 50%;
+  z-index: 1;
+}
+</style>
+</head>
+<body>
+
+<!-- ✨ Falling Icons Layer -->
+<div class="falling-icons-layer" id="fallingLayer"></div>
+
+<h1 id="titleText">Hello EM!</h1>
+
+<div class="container">
+  <button onclick="openPopup(this)" data-message="🎂 Surprise!!! <br> Halooo! Happy Bornyey, EM!!🥳🥳 Hindi mo inexpect 'to noh? HAHAHAHA! Anyways, ang mga wishes ko lang naman sa'yo ay maging happy and healthy ka physically, mentally, spiritually, psychologically.. ay basta lahat ng healthy. Siyempre hindi naman palaging masaya at madali ang buhay dadaan at dadaan ang mga pagsubok kaya stay strong and never give up👊👊. Many years to come stay safe palagi!! ☝️☝️">
+    <img src="images/cake.png"/>
+    <span class="tooltiptext">Bornyey</span>
+  </button>
+
+  <button onclick="openPopup(this)" data-message="📜 You’ve discovered a secret letter hidden in a bottle!">
+    <img src="images/bottle.png"/>
+    <span class="tooltiptext">Secret</span>
+  </button>
+</div>
+
+<!-- Overlay and Pop-up -->
+<div id="overlay"></div>
+
+<div id="popup">
+  <button onclick="closePopup()" style="position:absolute; right:5%; top:5%;">Close</button>
+  <h2 id="popupTitle"></h2>
+  <p id="popupText"></p>
+</div>
+
+<script>
+// === Falling Icons Background ===
+(function(){
+  const ICONS = ['⭐️','🎵','✨','🌙','🍁','🗼','🗽','🧚‍♀️','🐱','🐶','💙'];
+  const layer = document.getElementById('fallingLayer');
+  const count = 25;
+
+  function rand(min,max){return Math.random()*(max-min)+min;}
+  function pick(arr){return arr[Math.floor(Math.random()*arr.length)];}
+
+  for(let i=0;i<count;i++){
+    const el=document.createElement('span');
+    el.className='icon';
+    el.textContent=pick(ICONS);
+    el.style.left=rand(0,100)+'%';
+    el.style.fontSize=rand(18,44)+'px';
+    const duration=rand(6,18);
+    const delay=rand(-duration,0);
+    const xdrift=(Math.random()-0.5)*200+'px';
+    const rot=(Math.random()<0.5?'-':'')+Math.round(rand(90,720))+'deg';
+    el.style.animation=`fall ${duration}s linear ${delay}s infinite`;
+    el.style.setProperty('--x-drift',xdrift);
+    el.style.setProperty('--rot',rot);
+    layer.appendChild(el);
+  }
+})();
+
+
+const title = document.getElementById("titleText");
+
+// Text setup
+const prefix = "Hello ";
+const shortName = "EM!";
+const name1 = "Effeny";
+const name2 = "Mae!";
+const shortText = prefix + shortName;
+const fullText = prefix + name1 + " " + name2;
+
+// Timing setup
+const typeDelay = 180;
+const holdAfterType = 1500;
+const fadeTime = 600;
+const pauseAfterFade = 1000;
+
+// Fade functions
+function fadeIn(el, callback) {
+  el.style.transition = `opacity ${fadeTime}ms ease`;
+  el.style.opacity = "1";
+  if (callback) setTimeout(callback, fadeTime);
+}
+function fadeOut(el, callback) {
+  el.style.transition = `opacity ${fadeTime}ms ease`;
+  el.style.opacity = "0";
+  if (callback) setTimeout(callback, fadeTime);
+}
+
+// Type both names together
+function typeTogether() {
+  fadeOut(title, () => {             // 👈 Fade EM out first
+    let i = 0, j = 0;
+    title.textContent = prefix;
+    fadeIn(title);                   // fade in before typing starts
+
+    function typingStep() {
+      const part1 = name1.slice(0, i);
+      const part2 = name2.slice(0, j);
+      title.textContent = prefix + part1 + (part1 || part2 ? " " : "") + part2;
+
+      if (i < name1.length) i++;
+      if (j < name2.length) j++;
+
+      if (i < name1.length || j < name2.length) {
+        setTimeout(typingStep, typeDelay);
+      } else {
+        title.textContent = fullText;
+        setTimeout(() => {
+          fadeOut(title, () => {
+            title.textContent = shortText;
+            fadeIn(title, () => {
+              setTimeout(typeTogether, pauseAfterFade);
+            });
+          });
+        }, holdAfterType);
+      }
+    }
+
+    typingStep();
+  });
+}
+
+// Start animation
+title.style.opacity = "1";
+setTimeout(typeTogether, 1500);
+
+
+const titleElem = document.getElementById("popupTitle");
+var music;
+function openPopup(button) {
+  const overlay = document.getElementById("overlay");
+  const popup = document.getElementById("popup");
+  const textElem = document.getElementById("popupText");
+  
+  const message = button.getAttribute("data-message");
+  if(!message.indexOf("🎂")){
+    titleElem.textContent = "🎈Birthday Message🎈";
+    music = document.getElementById("bdaySong");
+    music.currentTime = 0;
+  } else {
+    titleElem.textContent = "👀Secret Message👀";
+    music = document.getElementById("secretSong");
+    music.currentTime = 2;
+  }
+  textElem.innerHTML = message;
+
+  overlay.style.display = "block";
+  popup.style.display = "block";
+  setTimeout(() => popup.classList.add("active"), 10);
+
+  music.volume = 0.5;
+  music.play().catch(() => console.log("Autoplay blocked."));
+}
+
+function closePopup() {
+  const overlay = document.getElementById("overlay");
+  const popup = document.getElementById("popup");
+  popup.classList.remove("active");
+  music.pause();
+  setTimeout(() => {
+    overlay.style.display = "none";
+    popup.style.display = "none";
+  }, 600);
+}
+
+// Disable right-click
+document.addEventListener('contextmenu', e => e.preventDefault());
+</script>
+
+<audio id="bdaySong" loop>
+  <source src="audio/bday.mp3" type="audio/mpeg">
+</audio>
+<audio id="secretSong" loop>
+  <source src="audio/secret.mp3" type="audio/mpeg">
+</audio>
+</body>
+</html>
