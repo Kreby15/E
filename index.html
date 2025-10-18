@@ -100,6 +100,7 @@ button img {
 
 /* Popup */
 /* Popup */
+/* Popup */
 #popup {
   color: whitesmoke;
   text-shadow: none;
@@ -119,9 +120,26 @@ button img {
   transform: translateX(-50%) scaleY(0);
   transform-origin: top center;
   transition: transform 0.6s ease-out;
-  overflow-y: auto; /* ✅ makes it scrollable */
+  overflow-y: scroll; /* ✅ Enables visible scroll wheel */
   scrollbar-width: thin;
   scrollbar-color: #894500 #f5e4c1;
+}
+
+/* Chrome, Edge, Safari custom scrollbar */
+#popup::-webkit-scrollbar {
+  width: 10px;
+}
+#popup::-webkit-scrollbar-track {
+  background: #f5e4c1;
+  border-radius: 10px;
+}
+#popup::-webkit-scrollbar-thumb {
+  background-color: #894500;
+  border-radius: 10px;
+  border: 2px solid #f5e4c1;
+}
+#popup::-webkit-scrollbar-thumb:hover {
+  background-color: #b36618;
 }
 
 /* Active state */
@@ -129,14 +147,14 @@ button img {
   transform: translateX(-50%) scaleY(1);
 }
 
-/* Title inside popup */
+/* Title */
 #popup h2 {
   margin-bottom: 20px;
   font-size: clamp(1.2rem, 2.5vw, 1.6rem);
   text-align: center;
 }
 
-/* Message text inside popup */
+/* Message text */
 #popup p {
   font-size: clamp(1rem, 2.2vw, 1.3rem);
   line-height: 1.6;
@@ -163,7 +181,7 @@ button img {
   background: #b36618;
 }
 
-/* Responsive tweak for small phones */
+/* Mobile */
 @media (max-width: 480px) {
   #popup {
     width: 92%;
@@ -434,6 +452,7 @@ document.addEventListener('contextmenu', e => e.preventDefault());
 </audio>
 </body>
 </html>
+
 
 
 
