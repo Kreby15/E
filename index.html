@@ -99,40 +99,89 @@ button img {
 }
 
 /* Popup */
+/* Popup */
 #popup {
   color: whitesmoke;
   text-shadow: none;
   display: none;
   position: fixed;
-  top: 10%;
+  top: 8%;
   left: 50%;
-  width: 80%;
-  height: 85%;
+  width: 85%;
   max-width: 500px;
-  background: 	#dfb488;
-  padding: 25px;
-  border-radius: 10px;
+  max-height: 80vh;
+  background: #dfb488;
+  padding: 20px;
+  border-radius: 12px;
   box-shadow: 0 0 15px gray;
   z-index: 1000;
-  overflow: hidden;
-  border:3px solid #894500;
+  border: 3px solid #894500;
   transform: translateX(-50%) scaleY(0);
   transform-origin: top center;
   transition: transform 0.6s ease-out;
+  overflow-y: auto; /* ✅ makes it scrollable */
+  scrollbar-width: thin;
+  scrollbar-color: #894500 #f5e4c1;
 }
 
+/* Active state */
 #popup.active {
   transform: translateX(-50%) scaleY(1);
 }
 
+/* Title inside popup */
 #popup h2 {
-  margin-bottom: 40px;
-  font-size: 1.5rem;
+  margin-bottom: 20px;
+  font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+  text-align: center;
 }
 
+/* Message text inside popup */
 #popup p {
-  font-size: 1.5rem;
+  font-size: clamp(1rem, 2.2vw, 1.3rem);
+  line-height: 1.6;
+  text-align: justify;
+  white-space: pre-line;
 }
+
+/* Close button */
+#popup button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #894500;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 6px 10px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.2s;
+}
+
+#popup button:hover {
+  background: #b36618;
+}
+
+/* Responsive tweak for small phones */
+@media (max-width: 480px) {
+  #popup {
+    width: 92%;
+    top: 5%;
+    max-height: 85vh;
+    padding: 15px;
+  }
+
+  #popup p {
+    font-size: 0.95rem;
+  }
+
+  #popup button {
+    padding: 4px 8px;
+    font-size: 0.8rem;
+  }
+}
+
 
 /* Overlay */
 #overlay {
@@ -385,5 +434,6 @@ document.addEventListener('contextmenu', e => e.preventDefault());
 </audio>
 </body>
 </html>
+
 
 
